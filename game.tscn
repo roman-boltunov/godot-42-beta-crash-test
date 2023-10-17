@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://bgd4ut46d6t1j"]
+
+[ext_resource type="PackedScene" uid="uid://tf7trkih78rc" path="res://shooter.tscn" id="1_dtg70"]
+[ext_resource type="PackedScene" uid="uid://c1wk7aismenxm" path="res://mob.tscn" id="2_kyjg2"]
+[ext_resource type="PackedScene" uid="uid://ds000brj2wnm3" path="res://Shell.tscn" id="4_j2l2y"]
+[ext_resource type="Script" path="res://ShellSpawner.cs" id="5_to73q"]
+
+[node name="Game" type="Node"]
+
+[node name="Shooter" parent="." node_paths=PackedStringArray("ShootTimer") instance=ExtResource("1_dtg70")]
+position = Vector2(366, 391)
+ShootTimer = NodePath("../Timer")
+Damage = 1
+
+[node name="Mob" parent="." instance=ExtResource("2_kyjg2")]
+position = Vector2(884, 187)
+
+[node name="ShellSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("..")
+script = ExtResource("5_to73q")
+Shell = ExtResource("4_j2l2y")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="Shooter" method="OnShootTimerTimeout"]
